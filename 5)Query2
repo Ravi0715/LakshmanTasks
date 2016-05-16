@@ -1,0 +1,78 @@
+<%@page import="java.util.Iterator"%>
+<%@page import="org.model.HotComparator"%>
+<%@page import="java.util.Collections"%>
+<%@page import="org.model.ColdComparator"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
+<%@page import="org.model.Weather"%>
+<%@page import="java.util.TreeSet"%>
+<%@page import="java.util.SortedSet"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.Statement"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="org.model.DBCon"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>5 Hottest/coldest cities on 9th November</title>
+</head>
+<body bgcolor="#offf">
+<%
+	String str=request.getParameter("select");
+	try{
+		DBCon db = new DBCon();
+		Connection con = db.getConnection();
+		Statement st = con.createStatement();
+		String sql = "select * from weather where day='09-nov-15'";
+		ResultSet rs = st.executeQuery(sql);
+		List<Weather> list = new ArrayList<Weather>();
+	
+		while(rs.next()){
+			Weather weather = new Weather();
+			weather.setDate(rs.getDate(1).toString());
+			weather.setCity(rs.getString(2));
+			weather.setTemperature(rs.getInt(3));
+			list.add(weather);
+		}
+		/* out.println(list);
+		Iterator<Weather> i  = list.iterator();
+		while(i.hasNext()){
+			Weather w = i.next();
+			out.println(w.getDate()+"  "+w.getCity()+"  "+w.getTemperature()+"<br/>");
+		}*/
+ 		if(str.equalsIgnoreCase("Coldest"))
+			Collections.sort(list,new ColdComparator());
+		else if(str.equalsIgnoreCase("Hottest"))
+			Collections.sort(list,new HotComparator());
+		Iterator<Weather> ie  = list.iterator();
+%>
+<h1 align="center">5  <%=str%> Cities on 9th November</h1>
+<table border="3" width="1000" height="300">
+<tr>
+<th>Date</th>
+<th>city</th>
+<th>Temperature</th>
+</tr>
+<%		int count=5;
+		while(ie.hasNext()&&count>0){
+			Weather we = ie.next();
+%>
+		<tr>
+		<td><%=we.getDate()%></td>
+		<td><%=we.getCity()%></td>
+		<td><%=we.getTemperature()%></td>
+		</tr>
+<%		count--;
+		}
+		rs.close();st.close();con.close();
+	}
+	catch(Exception e){
+		e.printStackTrace();
+	}
+%>
+</table>
+</body>
+</html>
