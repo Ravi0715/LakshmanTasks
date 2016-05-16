@@ -1,0 +1,42 @@
+package org.dailytasks.may14;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.Scanner;
+import java.util.Vector;
+
+public class SumOfDigits {
+	public static void main(String[] args) {
+		
+		Scanner s = new Scanner(System.in);
+		List<Integer> list = new Vector<Integer>();
+		int n,i,rem,sum=0,len;
+		System.out.println("Enter number of elements:");
+		n = s.nextInt();
+		System.out.println("Enter Integers:");
+		for(i=0;i<n;i++)
+			list.add(s.nextInt());
+		//System.out.println(list);
+		Iterator<Integer> ie = list.iterator();
+		while(ie.hasNext()){
+			Integer num = ie.next();
+			 len = num.toString().length();
+			int temp = num;
+			//System.out.println(st.length());
+			while(len!=1){
+				sum = 0;
+				while(num!=0){	
+					
+					rem = num%10;
+					sum = sum + rem;
+					num = num/10;
+				}
+				num = sum;
+				len = num.toString().length(); 
+			}
+			if(sum == 9)
+				System.out.println(temp+" = "+sum);
+		}
+		
+	}
+}
