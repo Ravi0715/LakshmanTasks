@@ -1,0 +1,49 @@
+package org.dailytasks.may14;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Scanner;
+
+public class EndsWithDemo {
+	public static void main(String[] args) {
+
+		Scanner s = new Scanner(System.in);
+		System.out.println("Enter input sequence:");
+		String ip = s.nextLine();
+		String str[] = ip.split(" ");
+		List list = new ArrayList();
+		
+		for(String se : str){
+			
+			if(se.endsWith("e")){
+				char arr[] =se.toCharArray();
+				char rp[] =  new char[arr.length+1];
+				for(int i=0,j=0;i<arr.length;i++,j++){
+					if(i== arr.length-2){
+						rp[j] = arr[i];
+						j++;
+						rp[j] = 'Z';
+					}
+					else
+						rp[j] = arr[i];
+				}
+				StringBuffer sb = new StringBuffer();
+				for(char c : rp)
+					sb.append(c);
+				//System.out.println(sb);
+				list.add(sb);
+				sb = null;
+			}
+			else
+				list.add(se);
+		}
+		//System.out.println(list);
+		System.out.println("\nOutput:-");
+		ListIterator ie = list.listIterator();
+		while(ie.hasNext()){
+			//String word = ie.next();
+			System.out.print(ie.next()+"  ");
+		}
+	}
+}
