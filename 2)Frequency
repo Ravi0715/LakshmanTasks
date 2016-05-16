@@ -1,0 +1,35 @@
+package org.dailytasks.may14;
+
+import java.util.List;
+import java.util.ArrayList;
+import java.util.ListIterator;
+import java.util.Scanner;
+
+public class Frequency {
+	public static void main(String[] args) {
+		
+		String str = new String();
+		Scanner s = new Scanner(System.in);
+		System.out.println("Enter input String:");
+		str = s.next();
+		char ch[] = str.toCharArray();
+		int count[] = new int[ch.length];
+		
+		for(int i=0;i<ch.length;i++){
+			count[i] =1;
+			for(int j=i+1;j<ch.length;j++){
+				if(ch[i]==ch[j])
+					count[i]++;
+			}
+		}
+		for(int i=0;i<ch.length;i++){
+			int x=1;
+			for(int j=0;j<i;j++){
+				if(ch[i]==ch[j])
+					x=0;
+			}
+			if(x==1)
+				System.out.println(ch[i]+"-"+count[i]);
+		}
+	}
+}
